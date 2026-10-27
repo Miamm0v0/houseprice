@@ -1,0 +1,94 @@
+# Paths are resolved relative to method_v1.
+paths:
+  data_dir: ../house-prices-advanced-regression-techniques
+  output_dir: outputs
+
+target_column: SalePrice
+id_column: Id
+
+cv:
+  n_splits: 5
+  shuffle: true
+  random_state: 42
+  early_stopping: true
+  early_stopping_rounds: 100
+
+features:
+  add_aggregate_features: true
+  add_ratio_features: true
+  add_age_features: true
+  add_indicator_features: true
+  add_quality_interactions: true
+  add_quality_area_features: true
+  add_ordinal_features: true
+  drop_original_ordinal: true
+
+preprocessing:
+  skew_threshold: 0.75
+  forced_categorical:
+    - MSSubClass
+    - MoSold
+    - YrSold
+
+models:
+  enabled:
+    - lasso
+    - elasticnet
+    - gradient_boosting
+    - xgboost
+    - lightgbm
+    - catboost
+
+  params:
+    lasso:
+      alpha: 0.0005
+      max_iter: 20000
+      selection: cyclic
+
+    elasticnet:
+      alpha: 0.0005
+      l1_ratio: 0.9
+      max_iter: 20000
+      selection: cyclic
+
+    gradient_boosting:
+      n_estimators: 1000
+      learning_rate: 0.03
+      max_depth: 4
+      max_features: sqrt
+      min_samples_leaf: 15
+      min_samples_split: 10
+      loss: huber
+
+    xgboost:
+      n_estimators: 2000
+      learning_rate: 0.02
+      max_depth: 4
+      min_child_weight: 1
+      subsample: 0.8
+      colsample_bytree: 0.8
+      reg_alpha: 0.001
+      reg_lambda: 1.0
+      objective: reg:squarederror
+      eval_metric: rmse
+      n_jobs: -1
+
+    lightgbm:
+      n_estimators: 2000
+      learning_rate: 0.02
+      num_leaves: 31
+      max_depth: -1
+      subsample: 0.8
+      colsample_bytree: 0.8
+      reg_alpha: 0.001
+      reg_lambda: 0.1
+      n_jobs: -1
+      verbosity: -1
+
+    catboost:
+      iterations: 2000
+      learning_rate: 0.03
+      depth: 6
+      loss_function: RMSE
+      verbose: false
+      allow_writing_files: false

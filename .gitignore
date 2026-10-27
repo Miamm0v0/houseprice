@@ -1,0 +1,14 @@
+__pycache__/
+*.py[cod]
+*.joblib
+*.pkl
+
+.venv/
+venv/
+env/
+.idea/
+.vscode/
+.ipynb_checkpoints/
+
+method_v1/outputs/models/
+
